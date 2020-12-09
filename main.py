@@ -16,7 +16,7 @@ def prendre():
 
 @velib.command("rendre_velib")
 def rendre():
-    print("Voici la station poure rendre un vélib")
+    print("Voici la station pour rendre un vélib")
 
 
 if __name__ == "__main__":
