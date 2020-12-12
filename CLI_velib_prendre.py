@@ -10,7 +10,7 @@ def velib():
     return True
 
 
-@click.command("prendre_velib")
+@velib.command("prendre_velib")
 @click.argument("distance", type=int, default="250")
 @click.option("--mechanic", "-m", is_flag=True, default=None, help="pour un vélib mécanique")
 @click.option("--electric", "-e", is_flag=True, default=None, help="pour un vélib éléctrique")
