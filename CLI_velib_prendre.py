@@ -2,6 +2,14 @@ import click
 import requests
 
 
+@click.group()
+def velib():
+    """
+    Petit outil CLI pour trouver une station velib proche de l'École des chartes afin de prendre ou rendre un velib
+    """
+    return True
+
+
 @click.command("prendre_velib")
 @click.argument("distance", type=int, default="250")
 @click.option("--mechanic", "-m", is_flag=True, default=None, help="pour un vélib mécanique")
@@ -20,12 +28,12 @@ def prendre(distance, mechanic=None, electric=None):
             if station["fields"]["mechanical"] > 1:
                 print(" - A {dist} mètres de l'Ecole, la station {nom} où il y a {num_velo_m} vélos mécaniques "
                       "à {heure}h{minute}.".format(
-                    dist=station["fields"]["dist"][:3],
-                    nom=station["fields"]["name"],
-                    num_velo_m=station["fields"]["mechanical"],
-                    heure=station["record_timestamp"][11:13],
-                    minute=station["record_timestamp"][14:16]
-                ))
+                        dist=station["fields"]["dist"][:3],
+                        nom=station["fields"]["name"],
+                        num_velo_m=station["fields"]["mechanical"],
+                        heure=station["record_timestamp"][11:13],
+                        minute=station["record_timestamp"][14:16]
+                        ))
 
         elif electric:
             if station["fields"]["ebike"] > 1:
@@ -36,17 +44,23 @@ def prendre(distance, mechanic=None, electric=None):
                         num_velo_e=station["fields"]["ebike"],
                         heure=station["record_timestamp"][11:13],
                         minute=station["record_timestamp"][14:16]
-                    ))
+                        ))
 
         elif station["fields"]["numbikesavailable"] > 1:
-            print(" - A {dist} mètres de l'Ecole, la station {nom} où il y a {num_velo} vélos à à {heure}h{minute}.".format(
-                dist=station["fields"]["dist"][:3],
-                nom=station["fields"]["name"],
-                num_velo=station["fields"]["numbikesavailable"],
-                heure=station["record_timestamp"][11:13],
-                minute=station["record_timestamp"][14:16]
-            ))
+            print(" - A {dist} mètres de l'Ecole, la station {nom} où il y a {num_velo} vélos "
+                  "à {heure}h{minute}.".format(
+                    dist=station["fields"]["dist"][:3],
+                    nom=station["fields"]["name"],
+                    num_velo=station["fields"]["numbikesavailable"],
+                    heure=station["record_timestamp"][11:13],
+                    minute=station["record_timestamp"][14:16]
+                    ))
+
+
+@velib.command("rendre_velib")
+def rendre():
+    print("Voici la station pour rendre un velib")
 
 
 if __name__ == "__main__":
-    prendre()
+    velib()
